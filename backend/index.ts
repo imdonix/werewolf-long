@@ -18,7 +18,8 @@ listen(config({
 		console.log('✅ Master initialized')
 
 		app.use('', expStatic('public'))
-
+		app.use('', expStatic('frontend'))
+		
 		app.use('/playground', playground)
 		app.use('/monitor', monitor())
 	},

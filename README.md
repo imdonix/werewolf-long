@@ -12,4 +12,3 @@ npm start
 
 - [Colyseus documentation](http://docs.colyseus.io/)
 - [Express documentation](https://expressjs.com/en/4x/api.html)
-- [SQLite](https://www.npmjs.com/package/sqlite3)
