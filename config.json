@@ -1,0 +1,37 @@
+{
+    "discussionStage" : "900",
+    "voteStage" : "180",
+        
+    "categories" : [
+        {
+            "id" : "food",
+            "question" : "Mi a kedvenc ételed?",
+            "sentence" : "kedvenc étele a(z) #",
+            "items" : [
+                {
+                    "id" : "pizza",
+                    "name" : "Pizza"
+                },
+                {
+                    "id" : "retek",
+                    "name" : "Retek"
+                }
+            ]
+        },
+        {
+            "id" : "drink",
+            "question" : "Mi a kedvenc alkoholos italod?",
+            "sentence" : "nagyon be tud baszni a(z) #-tól",
+            "items" : [
+                {
+                    "id" : "pizza",
+                    "name" : "Pizza"
+                },
+                {
+                    "id" : "retek",
+                    "name" : "Retek"
+                }
+            ]
+        }
+    ]
+}

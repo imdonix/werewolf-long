@@ -17,14 +17,13 @@ export class Game extends Room<GameState>
 	public seed : number 
 
 	private setup : Setup = new Setup() 
+	
 	private stages : Map<string, Stage>
 
 	private updateInterval : Delayed
-	public leavers : Set<string>
 
 	async onCreate(options: any) 
 	{
-		this.leavers = new Set()
 		this.seed = options.seed || Math.floor(Math.random() * Math.pow(10, 6))
 		this.setState(new GameState())
 
