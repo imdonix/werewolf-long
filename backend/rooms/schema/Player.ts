@@ -15,6 +15,7 @@ export class Player extends Schema
 	@type('string') accountId: string
 	@type('string') accountName: string
 	
+	@type('boolean') ready : boolean = false
 	@type('boolean') alive : boolean = true
 	@type('uint8') gameSide : Side = Side.SPECTATOR
 

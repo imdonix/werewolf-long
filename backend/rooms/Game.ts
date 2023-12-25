@@ -11,7 +11,8 @@ import { Player } from "./schema/Player";
 
 export class Game extends Room<GameState> 
 {
-	public mode : string
+	public autoDispose : boolean = false
+	public maxClients : number = 64
 
 	public seed : number 
 
@@ -23,8 +24,6 @@ export class Game extends Room<GameState>
 
 	async onCreate(options: any) 
 	{
-		this.mode = options.mode
-
 		this.leavers = new Set()
 		this.seed = options.seed || Math.floor(Math.random() * Math.pow(10, 6))
 		this.setState(new GameState())
@@ -36,7 +35,7 @@ export class Game extends Room<GameState>
 
 		this.updateInterval = this.clock.setInterval(this.update.bind(this), 1000)
 
-		this.info('Game', `Room created [${this.mode}]`)
+		this.info('Game', `Room created`)
 	}
 
 

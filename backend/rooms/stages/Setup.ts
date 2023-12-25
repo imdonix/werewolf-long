@@ -13,6 +13,8 @@ export class Setup extends Stage
     onStart(): void 
     {
         this.info('Preparing game...')
+
+        this.game.state.players.onAdd()
     }
 
     async onStartAsync() 
