@@ -3,7 +3,7 @@ import { Delayed, Room, Client, logger } from "@colyseus/core"
 import { GameState } from "./schema/GameState"
 
 import { Stage } from "./stages/Stage"
-import { Init } from "./stages/Init"
+import { Setup } from "./stages/Setup"
 
 import { Player } from "./schema/Player";
 
@@ -11,13 +11,12 @@ import { Player } from "./schema/Player";
 
 export class Game extends Room<GameState> 
 {
-	public maxClients : number = 2
 	public mode : string
 
 	public seed : number 
 
-	private init : Init = new Init() 
-	private stages : Array<Stage> = [this.init]
+	private setup : Setup = new Setup() 
+	private stages : Map<string, Stage>
 
 	private updateInterval : Delayed
 	public leavers : Set<string>
@@ -30,8 +29,11 @@ export class Game extends Room<GameState>
 		this.seed = options.seed || Math.floor(Math.random() * Math.pow(10, 6))
 		this.setState(new GameState())
 
-		this.init.init(this)
+		this.setup.init(this)
 		
+		this.stages = new Map()
+		this.stages.set(this.setup.constructor.name, this.setup)
+
 		this.updateInterval = this.clock.setInterval(this.update.bind(this), 1000)
 
 		this.info('Game', `Room created [${this.mode}]`)
@@ -40,40 +42,40 @@ export class Game extends Room<GameState>
 
 	onJoin(client: Client, options: any) 
 	{
-        const player = new Player()
-        player.client = client
-        player.accountName = options.name
-		player.accountId = options.id
-        this.state.players.set(client.sessionId, player)
 
-		this.info('Game' ,`'${player.accountName}' joined room '${this.roomId}'`)
-		this.stages[this.state.stage].onPlayerJoin(player)
+		const id = options.id
+
+		const findOld = this.state.players.get(id)
+		if(findOld)
+		{
+			findOld.clients.push(client) // override the old client
+			this.info('Game', `'${findOld.accountName}' returned [${findOld.clients.length}]`)
+		}
+		else
+		{
+			const player = new Player()
+			player.clients = [client]
+			player.accountName = options.name
+			player.accountId = id
+
+			this.state.players.set(player.accountId, player)
+			this.info('Game' ,`'${player.accountName}' joined [${player.clients.length}]`)
+			this.stages.get(this.state.stage).onPlayerJoin(player)
+		}
 	}
 
 	async onLeave(client: Client, consented: boolean) 
 	{
-		const player = this.state.players.get(client.sessionId)
-  
-		if(consented)
+		for (const player of this.state.players.values()) 
 		{
-			this.info('Game' ,`'${player.accountName}' left the room`)
-			this.state.players.delete(client.sessionId)
-			this.stages[this.state.stage].onPlayerLeave(player)
-		}
-		else
-		{
-			this.info('Game' ,`'${player.accountName}' reconnecting...`)
-
-			try 
+			const i =player.clients.indexOf(client)
+			if(i >= 0)
 			{
-				await this.allowReconnection(client, 60)
-				this.info('Game' ,`'${player.accountName}' returned!`)			
-			} 
-			catch (e) 
-			{
-				this.info('Game' ,`'${player.accountName}' timeouted!`)
-				this.state.players.delete(client.sessionId)
-				this.stages[this.state.stage].onPlayerLeave(player)
+				player.clients.splice(i, 1)
+				if(player.clients.length == 0)
+				{
+					this.info('Game' ,`'${player.accountName}' went offline`)
+				}
 			}
 		}
 	}
@@ -87,7 +89,7 @@ export class Game extends Room<GameState>
 
 	private update()
 	{
-		this.stages[this.state.stage].update()
+		this.stages.get(this.state.stage).update()
 	}
 
 	public getPlayerByAccountID(accountID : string) : Player

@@ -10,21 +10,40 @@
 <body>
 
     <main>
-        <section id="login-panel" class="py-5 text-center container">
-            <div class="row py-lg-5">
-              <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">Név</h1>
-                <input id="login-name" type="text">
-                <br>
-                <button id="login-submit" class="btn btn-primary my-3">Kezdés</button>
-              </div>
+      <section id="login-panel" class="py-5 text-center container disabled">
+          <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+              <h1 class="fw-light">Név</h1>
+              <input id="login-name" type="text">
+              <br>
+              <button id="login-submit" class="btn btn-primary my-3">Kezdés</button>
+              <br>
+              <div id="login-error" class="text-danger"></div>
             </div>
-        </section>
+          </div>
+      </section>
 
-
+      <section id="setup-panel" class="py-5 text-center container">
+        <div class="row lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="row lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h2>Várakozás a többi játékosra</h2>
+          </div>
+        </div>
+        <div class="row lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <span id="setup-display">10/10</span>
+          </div>
+        </div>
+      </section>
         
     </main>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="colyseus.js"></script>

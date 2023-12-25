@@ -20,8 +20,6 @@ export abstract class Stage
 	/* Update runs for every one secound */
 	abstract onUpdate() : void
 
-    onPlayerLeave(player : Player) {}
-
     onPlayerJoin(player : Player) {}
 
 
@@ -55,7 +53,7 @@ export abstract class Stage
 
 	public isActive()
 	{
-		return this.game.getStages().indexOf(this) == this.game.state.stage
+		return this.constructor.name == this.game.state.stage
 	}
 
 	protected info(log : any) : void
@@ -83,13 +81,6 @@ export abstract class Stage
 				
 			}, sec * 1000)
 		})
-	}
-
-
-	protected generalLeaveHandler(player : Player)
-	{
-		this.game.state.stage = this.game.getStages().length - 1 // Go to last stage
-		this.game.leavers.add(player.accountId)
 	}
 
 }

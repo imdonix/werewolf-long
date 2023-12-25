@@ -3,14 +3,8 @@ import { Player } from "./Player";
 
 export class GameState extends Schema 
 {
-	/*
-		0 = Lobby
-		1 = Init
-		2 = Spread
-		3 = Conquer
-		4 = End
-	*/
-	@type( 'uint8' ) stage : number = 0
+
+	@type( 'string' ) stage : string = 'Setup'
 
 	/*
 		Counter for stages

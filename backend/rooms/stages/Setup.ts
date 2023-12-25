@@ -3,7 +3,7 @@ import { Stage } from "./Stage";
 
 
 
-export class Init extends Stage
+export class Setup extends Stage
 {
 
     cooldown : number
@@ -22,18 +22,9 @@ export class Init extends Stage
 
     onUpdate(): void 
     {
-        if (this.cooldown > 0)
-        {
-            this.cooldown--
-        }
-        else
-        {
-            this.info('Game started.')
-        }
     }
 
-    onPlayerLeave(player: Player): void 
-    {
-        this.generalLeaveHandler(player)
+    onPlayerJoin(player: Player): void {
+        
     }
 }

@@ -10,7 +10,7 @@ export enum Side
 
 export class Player extends Schema 
 {
-	client : Client
+	clients : Array<Client>
 
 	@type('string') accountId: string
 	@type('string') accountName: string
