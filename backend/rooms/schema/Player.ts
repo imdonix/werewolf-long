@@ -19,4 +19,6 @@ export class Player extends Schema
 	@type('boolean') alive : boolean = true
 	@type('uint8') gameSide : Side = Side.SPECTATOR
 
+	facts : Map<string, string> = new Map() // CategoryID -> Fact 
+
 }

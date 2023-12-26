@@ -1,3 +1,4 @@
+import { readFile } from "fs/promises"
 import { Delayed, Room, Client, logger } from "@colyseus/core"
 
 import { GameState } from "./schema/GameState"
@@ -7,28 +8,27 @@ import { Setup } from "./stages/Setup"
 
 import { Player } from "./schema/Player";
 
-
-
 export class Game extends Room<GameState> 
 {
 	public autoDispose : boolean = false
 	public maxClients : number = 64
 
 	public seed : number 
+	public config : any
 
 	private setup : Setup = new Setup() 
-	
 	private stages : Map<string, Stage>
 
 	private updateInterval : Delayed
 
 	async onCreate(options: any) 
 	{
+		this.config = JSON.parse((await readFile('./config.json')).toString())
 		this.seed = options.seed || Math.floor(Math.random() * Math.pow(10, 6))
 		this.setState(new GameState())
 
 		this.setup.init(this)
-		
+
 		this.stages = new Map()
 		this.stages.set(this.setup.constructor.name, this.setup)
 
@@ -58,7 +58,6 @@ export class Game extends Room<GameState>
 
 			this.state.players.set(player.accountId, player)
 			this.info('Game' ,`'${player.accountName}' joined [${player.clients.length}]`)
-			this.stages.get(this.state.stage).onPlayerJoin(player)
 		}
 	}
 

@@ -1,7 +1,8 @@
 {
+    "setupCountdown" : "10",
     "discussionStage" : "900",
     "voteStage" : "180",
-        
+
     "categories" : [
         {
             "id" : "food",

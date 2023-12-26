@@ -5,9 +5,13 @@ const setupDisplay = document.getElementById('setup-display')
 
 const setupQuestion = document.getElementById('setup-question')
 const setupQuestionText = document.getElementById('setup-question-text')
+const setupQuestionContainer = document.getElementById('setup-question-container')
 const setupQuestionSubmit = document.getElementById('setup-question-submit')
 
-function updatePlayerReady()
+const setupCountdownPanel = document.getElementById('setup-countdown-panel')
+const setupCountdown = document.getElementById('setup-countdown')
+
+function updatePlayerReady(room)
 {
     let count = 0;
     let ready = 0;  
@@ -23,44 +27,102 @@ function updatePlayerReady()
     setupDisplay.innerText = `${count} / ${ready}`
 }
 
+let lastCategory = null
+let lastHandler = null
 function displayQuestion(room, question)
 {
+    if(lastCategory == question.category) return // same question -> prevent rerendering
 
+    // clear old question container and handler
+    if(lastHandler) setupQuestionSubmit.removeEventListener('click', lastHandler)
+    setupQuestionContainer.innerHTML = '' 
+
+    // create question panel
     setupQuestionText.innerText = question.text
+    const options = new Array()
+    for (const fact of question.facts) 
+    {
+        const option = document.createElement('div')
+        const input = document.createElement('input')
+        const lable = document.createElement('label')
 
-    ```
-    <div class="form-check">
-    <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-    <label class="form-check-label" for="credit">Pizza</label>
-    </div>
-    ```
+        option.classList.add('form-check')
+        input.id = fact.id
+        input.classList.add('form-check-input')
+        input.type = 'radio'
+        input.name = 'answers'
+        lable.classList.add('form-check-label')
+        lable.innerText = fact.name
+        lable.htmlFor = fact.id
 
+        option.appendChild(input)
+        option.appendChild(lable)
+        setupQuestionContainer.appendChild(option)
+
+        options.push(input)
+        
+    }
+
+    lastHandler = () => {
+
+        let answ = null
+        for (const opt of options) 
+        {
+            if(opt.checked)
+            {
+                answ = opt.id
+            }
+        }
+
+        if(answ)
+        {
+            room.send('answer', {
+                category : question.category,
+                answer : answ
+            })
+
+            setupQuestion.classList.add('disabled')
+        }
+        else
+        {
+            console.log('No answer selected')
+        }
+    }
+
+    setupQuestionSubmit.addEventListener('click', lastHandler)
+    setupQuestion.classList.remove('disabled')
+    lastCategory = question.category
+    console.log(`Qustion recieved: ${lastCategory}`)
 }
 
 export function Setup(room)
 {
 
     // setup player ready display
-    room.state.players.onAdd((player, key) => updatePlayerReady(player))
+    room.state.players.onAdd((player, b) => {
+        updatePlayerReady(room)
+        player.onChange(() => updatePlayerReady(room))
+    })
     for (const player of room.state.players.values()) 
     {
-        player.onChange(updatePlayerReady)
+        player.onChange(() => updatePlayerReady(room))
     }
 
     // question handlers
     room.onMessage('question', (question) => displayQuestion(room, question))
+    room.onMessage('done', () => { setupWaiting.classList.remove('disabled') })
+    room.onMessage('setup_countdown', (rem) => {
+        setupCountdownPanel.classList.remove('disabled')
+        setupCountdown.innerText = rem
+    })
 
     return {
         show : () => {
-            setupWaiting.classList.remove('disabled')
             setupPanel.classList.remove('disabled')
-            setupQuestion.classList.add('disabled')
         },
 
         hide : () => {
-            setupWaiting.classList.add('disabled')
             setupPanel.classList.add('disabled')
-            setupQuestion.classList.add('disabled')
         }
     }
 }
