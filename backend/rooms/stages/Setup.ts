@@ -58,7 +58,21 @@ export class Setup extends Stage
 
         if(done)
         {
-
+            if(this.cooldown > 0)
+            {
+                this.cooldown--
+                for (const player of this.game.state.players.values()) 
+                {
+                    for (const client of player.clients) 
+                    {
+                        client.send('setup_countdown', this.cooldown)
+                    }
+                }
+            }
+            else
+            {
+                this.game.state.stage = 'TODO'
+            }
         }
     }
 
