@@ -1,6 +1,8 @@
 {
+    "werewolfThresholds" : [2, 5, 10],
+
     "setupCountdown" : "10",
-    "discussionStage" : "900",
+    "socialStage" : "900",
     "voteStage" : "180",
 
     "categories" : [
@@ -25,14 +27,18 @@
             "sentence" : "nagyon be tud baszni a(z) #-tól",
             "items" : [
                 {
-                    "id" : "pizza",
-                    "name" : "Pizza"
+                    "id" : "vodka",
+                    "name" : "Vodka"
                 },
                 {
-                    "id" : "retek",
-                    "name" : "Retek"
+                    "id" : "susu",
+                    "name" : "Süsü pezsgő"
                 }
             ]
         }
-    ]
+    ],
+
+    "hints" : {
+        "thereIsOnlyOne" : ""
+    }
 }

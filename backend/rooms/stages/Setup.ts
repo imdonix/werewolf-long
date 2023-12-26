@@ -71,7 +71,7 @@ export class Setup extends Stage
             }
             else
             {
-                this.game.state.stage = 'TODO'
+                this.game.state.stage = 'Social'
             }
         }
     }

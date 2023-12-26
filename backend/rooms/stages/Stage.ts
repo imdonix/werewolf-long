@@ -15,10 +15,11 @@ export abstract class Stage
 	abstract onUpdate() : void
 
 
-	init(game : Game) : void
+	init(game : Game) : Stage
 	{
 		this.game = game
 		this.onInit()
+		return this
 	}
 
 	update() : void

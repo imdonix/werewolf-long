@@ -7,6 +7,7 @@ import { Stage } from "./stages/Stage"
 import { Setup } from "./stages/Setup"
 
 import { Player } from "./schema/Player";
+import { Social } from "./stages/Social"
 
 export class Game extends Room<GameState> 
 {
@@ -17,6 +18,7 @@ export class Game extends Room<GameState>
 	public config : any
 
 	private setup : Setup = new Setup() 
+	private social : Social = new Social()
 	private stages : Map<string, Stage>
 
 	private updateInterval : Delayed
@@ -27,10 +29,10 @@ export class Game extends Room<GameState>
 		this.seed = options.seed || Math.floor(Math.random() * Math.pow(10, 6))
 		this.setState(new GameState())
 
-		this.setup.init(this)
-
+		
 		this.stages = new Map()
-		this.stages.set(this.setup.constructor.name, this.setup)
+		this.stages.set(this.setup.constructor.name, this.setup.init(this))
+		this.stages.set(this.social.constructor.name, this.social.init(this))
 
 		this.updateInterval = this.clock.setInterval(this.update.bind(this), 1000)
 
@@ -40,8 +42,9 @@ export class Game extends Room<GameState>
 
 	onJoin(client: Client, options: any) 
 	{
-
 		const id = options.id
+
+		if(!id) return // if there is no id let user inspect for playground
 
 		const findOld = this.state.players.get(id)
 		if(findOld)
