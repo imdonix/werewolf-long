@@ -22,8 +22,10 @@ export class Setup extends Stage
 
     onUpdate(): void 
     {
+        const players = [...this.game.state.players.values()]
+
         let done = true
-        for (const player of this.game.state.players.values()) 
+        for (const player of players) 
         {
             let playerDone = true
             for (const category of this.game.config.categories) 
@@ -56,12 +58,12 @@ export class Setup extends Stage
         }
 
 
-        if(done)
+        if(done && players.length >= 2)
         {
             if(this.cooldown > 0)
             {
                 this.cooldown--
-                for (const player of this.game.state.players.values()) 
+                for (const player of players) 
                 {
                     for (const client of player.clients) 
                     {
