@@ -1,7 +1,7 @@
 {
     "werewolfThresholds" : [2, 5, 10],
 
-    "setupCountdown" : "10",
+    "setupCountdown" : "1",
     "socialStage" : "900",
     "voteStage" : "180",
 
@@ -9,7 +9,7 @@
         {
             "id" : "food",
             "question" : "Mi a kedvenc ételed?",
-            "sentence" : "kedvenc étele a(z) #",
+            "sentence" : "kedvenc étele a(z) <b>#</b>",
             "items" : [
                 {
                     "id" : "pizza",
@@ -24,7 +24,7 @@
         {
             "id" : "drink",
             "question" : "Mi a kedvenc alkoholos italod?",
-            "sentence" : "nagyon be tud baszni a(z) #-tól",
+            "sentence" : "nagyon be tud baszni a(z) <b>#</b>-tól",
             "items" : [
                 {
                     "id" : "vodka",
@@ -38,7 +38,15 @@
         }
     ],
 
+    "roles" : {
+        "werewolf" : "Vérfarkas",
+        "human" : "Ember"
+    },
+
     "hints" : {
-        "thereIsOnlyOne" : ""
+        "thereIsNoOne" : "Nincs olyan @ akire igaz lenne hogy #",
+        "trueForAll" : "Minden @-re igaz az hogy #",
+        "trueForOnlyOne" : "Csak egy @-re igaz az hogy #",
+        "trueForAtleastOne" : "Biztosan van olyan @ akire igaz hogy #"
     }
 }

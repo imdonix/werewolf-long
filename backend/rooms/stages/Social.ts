@@ -1,6 +1,7 @@
 import { Client } from "colyseus";
 import { Player, Side } from "../schema/Player";
 import { Stage } from "./Stage";
+import { generateHints } from "../Hint";
 
 
 
@@ -18,23 +19,46 @@ export class Social extends Stage
         this.info('Preparing game...')
         this.cooldown = this.game.config.socialStage
 
-        // shuffle players into teams
-        const players = [...this.game.state.players.values()]
-        const randArray = new Array(players.length).fill(null).map((_, i) => i)
-        this.shuffleArray(randArray)
-
-        for (let i = 0; i < players.length; i++) 
+        for (let i = 0; i < 3; i++) 
         {
-            if(this.game.config.werewolfThresholds.indexOf(i+1) >= 0)
+            const hint = this.game.hints.pop()
+
+            console.log(hint)
+            if(hint)
             {
-                players[randArray[i]].gameSide = Side.WEREWOLF
+                let category = null
+                for (const cat of this.game.config.categories) 
+                {
+                    if(cat.id == hint.category)
+                    {
+                        category = cat
+                        break
+                    }
+                }
+    
+                let itemName = ''
+                for (const item of category.items) 
+                {
+                    if(item.id == hint.item)
+                    {
+                        itemName = item.name
+                    }
+                }
+                
+                
+                let text = this.game.config.hints[hint.type]
+                text = text.replace('@', this.game.config.roles[hint.role.toString()]) 
+                text = text.replace('#', category.sentence.replace('#', itemName))
+                this.game.state.readableHints.push(text)
+
+                this.game.info('Social', `new hint -> ${text}`)
             }
             else
             {
-                players[randArray[i]].gameSide = Side.HUMAN
+                this.game.info('Social', `there is no more hint to provide`)
             }
+        
         }
-
     }
 
     onUpdate(): void 
@@ -54,16 +78,6 @@ export class Social extends Stage
             {
                 this.game.state.stage = 'Social'
             }
-    }
-
-    shuffleArray(array : Array<number>) 
-    {
-        for (var i = array.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-        }
     }
 
 }

@@ -8,6 +8,7 @@ import { Setup } from "./stages/Setup"
 
 import { Player } from "./schema/Player";
 import { Social } from "./stages/Social"
+import { Hint } from "./Hint"
 
 export class Game extends Room<GameState> 
 {
@@ -16,6 +17,7 @@ export class Game extends Room<GameState>
 
 	public seed : number 
 	public config : any
+	public hints : Array<Hint>
 
 	private setup : Setup = new Setup() 
 	private social : Social = new Social()
@@ -119,4 +121,14 @@ export class Game extends Room<GameState>
 	{
 		logger.warn(`{${this.roomId}} [${sub}] ${message}`)
 	}
+
+	shuffleArray<T>(array : Array<T>) 
+    {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
 }

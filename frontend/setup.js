@@ -99,14 +99,7 @@ export function Setup(room)
 {
 
     // setup player ready display
-    room.state.players.onAdd((player, b) => {
-        updatePlayerReady(room)
-        player.onChange(() => updatePlayerReady(room))
-    })
-    for (const player of room.state.players.values()) 
-    {
-        player.onChange(() => updatePlayerReady(room))
-    }
+    room.playerDispacher.subscribe((player) => updatePlayerReady(room))
 
     // question handlers
     room.onMessage('question', (question) => displayQuestion(room, question))

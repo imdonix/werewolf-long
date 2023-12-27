@@ -1,6 +1,7 @@
 import { Client } from "colyseus";
-import { Player } from "../schema/Player";
+import { Player, Side } from "../schema/Player";
 import { Stage } from "./Stage";
+import { generateHints } from "../Hint";
 
 
 
@@ -73,6 +74,27 @@ export class Setup extends Stage
             }
             else
             {
+                // shuffle players into teams
+                const players = [...this.game.state.players.values()]
+                const randArray = new Array(players.length).fill(null).map((_, i) => i)
+                this.game.shuffleArray(randArray)
+
+                for (let i = 0; i < players.length; i++) 
+                {
+                    if(this.game.config.werewolfThresholds.indexOf(i+1) >= 0)
+                    {
+                        players[randArray[i]].gameSide = Side.WEREWOLF
+                    }
+                    else
+                    {
+                        players[randArray[i]].gameSide = Side.HUMAN
+                    }
+                }
+
+                // generate hints
+                this.game.hints = generateHints(this.game.config.categories, [...this.game.state.players.values()], Side.WEREWOLF)
+                this.game.shuffleArray(this.game.hints)
+                
                 this.game.state.stage = 'Social'
             }
         }
@@ -94,4 +116,5 @@ export class Setup extends Stage
         }
 
     }
+
 }

@@ -3,9 +3,9 @@ import { Client } from "colyseus"
 
 export enum Side
 {
-	SPECTATOR = 0,
-	WEREWOLF = 1,
-	HUMAN = 2
+	SPECTATOR = 'spectator',
+	WEREWOLF = 'werewolf',
+	HUMAN = 'human'
 }
 
 export class Player extends Schema 
@@ -17,7 +17,7 @@ export class Player extends Schema
 	
 	@type('boolean') ready : boolean = false
 	@type('boolean') alive : boolean = true
-	@type('uint8') gameSide : Side = Side.SPECTATOR
+	@type('string') gameSide : Side = Side.SPECTATOR
 
 	facts : Map<string, string> = new Map() // CategoryID -> Fact 
 

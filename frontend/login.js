@@ -48,7 +48,8 @@ export function setupLogin(ready)
         if(input.length > 3)
         {
             localStorage.setItem('name', input)
-            ready(id, input)
+            
+            ready(id, cache)
             .then(onSuccess)
             .catch(onError)
         }
