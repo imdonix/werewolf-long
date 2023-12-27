@@ -18,6 +18,7 @@ export class Player extends Schema
 	@type('boolean') ready : boolean = false
 	@type('boolean') alive : boolean = true
 	@type('string') gameSide : Side = Side.SPECTATOR
+	@type('string') afterlife : Side = Side.SPECTATOR
 
 	facts : Map<string, string> = new Map() // CategoryID -> Fact 
 

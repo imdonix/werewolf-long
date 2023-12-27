@@ -16,14 +16,14 @@ export class Social extends Stage
 
     onStart(): void 
     {
-        this.info('Preparing game...')
+        this.info(`[${this.game.state.turn}] Social stage started...`)
         this.cooldown = this.game.config.socialStage
 
+        // update hints
         for (let i = 0; i < 3; i++) 
         {
             const hint = this.game.hints.pop()
 
-            console.log(hint)
             if(hint)
             {
                 let category = null
@@ -51,11 +51,11 @@ export class Social extends Stage
                 text = text.replace('#', category.sentence.replace('#', itemName))
                 this.game.state.readableHints.push(text)
 
-                this.game.info('Social', `new hint -> ${text}`)
+                this.info(`new hint -> ${text}`)
             }
             else
             {
-                this.game.info('Social', `there is no more hint to provide`)
+                this.info(`there is no more hint to provide`)
             }
         
         }
@@ -64,20 +64,20 @@ export class Social extends Stage
     onUpdate(): void 
     {
         if(this.cooldown > 0)
+        {
+            this.cooldown--
+            for (const player of this.game.state.players.values()) 
             {
-                this.cooldown--
-                for (const player of this.game.state.players.values()) 
+                for (const client of player.clients) 
                 {
-                    for (const client of player.clients) 
-                    {
-                        client.send('social_countdown', this.cooldown)
-                    }
+                    client.send('social_countdown', this.cooldown)
                 }
             }
-            else
-            {
-                this.game.state.stage = 'Social'
-            }
+        }
+        else
+        {
+            this.game.state.stage = 'Vote'
+        }
     }
 
 }

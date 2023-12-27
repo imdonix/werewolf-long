@@ -2,6 +2,7 @@ import { setupLogin } from './login.js'
 
 import { Setup } from './setup.js'
 import { Social } from './social.js'
+import { Vote } from './vote.js'
 
 const client = new Colyseus.Client()
 
@@ -27,6 +28,7 @@ setupLogin(async (id, name) => {
     const stages = new Map()
     stages.set('Setup', Setup(room))
     stages.set('Social', Social(room))
+    stages.set('Vote', Vote(room))
 
     // setup player dispacher
     room.state.players.onAdd((player, _) => {

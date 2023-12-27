@@ -1,3 +1,5 @@
+import { secondsToMinutesAndSeconds } from './utils.js'
+
 const socialPanel = document.getElementById('social-panel')
 
 const socialWatch = document.getElementById('social-watch')
@@ -8,22 +10,6 @@ const socialWatchHints = document.getElementById('social-watch-hints')
 const socialAction = document.getElementById('social-action')
 const socialActionBack = document.getElementById('social-action-back')
 const socialActionRole = document.getElementById('social-action-role')
-
-function secondsToMinutesAndSeconds(totalSeconds) 
-{
-    var minutes = Math.floor(totalSeconds / 60);
-    var seconds = totalSeconds % 60;
-
-    if(seconds.toString().length == 1)
-    {
-        seconds = `0${seconds}`
-    }
-  
-    return {
-      minutes: minutes,
-      seconds: seconds
-    };
-}
 
 
 function createHintDOM(index, text)
@@ -42,7 +28,6 @@ function createHintDOM(index, text)
 
 export function Social(room)
 {
-
     function toogleMode(watch)
     {
         if(watch)

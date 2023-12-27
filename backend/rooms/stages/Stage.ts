@@ -35,6 +35,11 @@ export abstract class Stage
 		}
 	}
 
+	clear()
+	{
+		this.started = false
+	}
+
 	public isActive()
 	{
 		return this.constructor.name == this.game.state.stage

@@ -9,6 +9,7 @@ import { Setup } from "./stages/Setup"
 import { Player } from "./schema/Player";
 import { Social } from "./stages/Social"
 import { Hint } from "./Hint"
+import { Vote } from "./stages/Vote"
 
 export class Game extends Room<GameState> 
 {
@@ -21,6 +22,7 @@ export class Game extends Room<GameState>
 
 	private setup : Setup = new Setup() 
 	private social : Social = new Social()
+	private vote : Vote = new Vote()
 	private stages : Map<string, Stage>
 
 	private updateInterval : Delayed
@@ -35,6 +37,7 @@ export class Game extends Room<GameState>
 		this.stages = new Map()
 		this.stages.set(this.setup.constructor.name, this.setup.init(this))
 		this.stages.set(this.social.constructor.name, this.social.init(this))
+		this.stages.set(this.vote.constructor.name, this.vote.init(this))
 
 		this.updateInterval = this.clock.setInterval(this.update.bind(this), 1000)
 
@@ -89,8 +92,15 @@ export class Game extends Room<GameState>
 	}
 
 
+	previusStage : string
 	private update()
 	{
+		if(this.previusStage != this.state.stage)
+		{
+			this.stages.get(this.state.stage).clear()
+			this.previusStage = this.state.stage
+		}
+
 		this.stages.get(this.state.stage).update()
 	}
 
