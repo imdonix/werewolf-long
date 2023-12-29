@@ -1,33 +1,32 @@
 import { secondsToMinutesAndSeconds } from './utils.js'
 
-const socialPanel = document.getElementById('social-panel')
-
-const socialWatch = document.getElementById('social-watch')
-const socialWatchCountdown = document.getElementById('social-watch-countdown')
-const socialWatchAction = document.getElementById('social-watch-action')
-const socialWatchHints = document.getElementById('social-watch-hints')
-
-const socialAction = document.getElementById('social-action')
-const socialActionBack = document.getElementById('social-action-back')
-const socialActionRole = document.getElementById('social-action-role')
-
-
-function createHintDOM(index, text)
-{
-    const container = document.createElement('div')
-    container.innerHTML = `
-    <div class="card mb-2">
-    <div class="card-body">
-      <h5 class="card-title">Tipp #${index}</h5>
-      <p class="card-text">${text}</p>
-    </div>
-    </div>
-    `
-    return container
-}
-
 export function Social(room)
 {
+    const socialPanel = document.getElementById('social-panel')
+
+    const socialWatch = document.getElementById('social-watch')
+    const socialWatchCountdown = document.getElementById('social-watch-countdown')
+    const socialWatchAction = document.getElementById('social-watch-action')
+    const socialWatchHints = document.getElementById('social-watch-hints')
+    
+    const socialAction = document.getElementById('social-action')
+    const socialActionBack = document.getElementById('social-action-back')
+    const socialActionRole = document.getElementById('social-action-role')
+
+    function createHintDOM(index, text)
+    {
+        const container = document.createElement('div')
+        container.innerHTML = `
+        <div class="card mb-2">
+        <div class="card-body">
+          <h5 class="card-title">Tipp #${index}</h5>
+          <p class="card-text">${text}</p>
+        </div>
+        </div>
+        `
+        return container
+    }
+
     function toogleMode(watch)
     {
         if(watch)

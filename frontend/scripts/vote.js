@@ -1,41 +1,41 @@
 import { secondsToMinutesAndSeconds } from './utils.js'
 
-const votePanel = document.getElementById('vote-panel')
-
-const voteAction = document.getElementById('vote-action')
-const voteCountdown = document.getElementById('vote-countdown')
-const voteNames = document.getElementById('vote-names') 
-
-const voteEnd = document.getElementById('vote-end')
-const voteEndName = document.getElementById('vote-end-name')
-const voteEndCount = document.getElementById('vote-end-count')
-
-const voteLose = document.getElementById('vote-lose')
-const voteSideWerewolf = document.getElementById('vote-side-werewolf')
-const voteSideHuman = document.getElementById('vote-side-human')
-
-function createVoteDOM(player, handler)
-{
-
-    const elem = document.createElement('a')
-    const card = document.createElement('div')
-    elem.addEventListener('click', handler)
-    elem.href = '#'
-    elem.style.textDecoration = 'none'
-    elem.id = player.accountId
-    card.classList.add('card', 'mb-2')
-    card.innerHTML = `
-    <div class="card-body">
-      <h5 class="card-text text-center">${player.accountName}</h5>
-    </div>
-    `
-    elem.appendChild(card)
-
-    return [elem, card]
-}
-
 export function Vote(room)
 {
+
+    const votePanel = document.getElementById('vote-panel')
+
+    const voteAction = document.getElementById('vote-action')
+    const voteCountdown = document.getElementById('vote-countdown')
+    const voteNames = document.getElementById('vote-names') 
+    
+    const voteEnd = document.getElementById('vote-end')
+    const voteEndName = document.getElementById('vote-end-name')
+    const voteEndCount = document.getElementById('vote-end-count')
+    
+    const voteLose = document.getElementById('vote-lose')
+    const voteSideWerewolf = document.getElementById('vote-side-werewolf')
+    const voteSideHuman = document.getElementById('vote-side-human')
+
+    function createVoteDOM(player, handler)
+    {
+    
+        const elem = document.createElement('a')
+        const card = document.createElement('div')
+        elem.addEventListener('click', handler)
+        elem.href = '#'
+        elem.style.textDecoration = 'none'
+        elem.id = player.accountId
+        card.classList.add('card', 'mb-2')
+        card.innerHTML = `
+        <div class="card-body">
+          <h5 class="card-text text-center">${player.accountName}</h5>
+        </div>
+        `
+        elem.appendChild(card)
+    
+        return [elem, card]
+    }
 
     room.onMessage('vote_countdown', (sec) => {
         const res = secondsToMinutesAndSeconds(sec)
