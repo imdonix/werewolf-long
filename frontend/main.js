@@ -97,7 +97,7 @@ async function loadDynamicSections()
                 fetch(page)
                 .then(data => data.text())
                 .then(text => section.innerHTML = text)
-                .catch(err => console.log('section cannot be loaded'))
+                .catch(err => console.log(`section cannot be loaded -> ${err}`))
             )
         }
     }

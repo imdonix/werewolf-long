@@ -1,7 +1,10 @@
+import { Client } from "colyseus";
 import { Game } from "../Game";
 
 export abstract class Stage 
 {
+	private msgQueue : Map<string, { call : (client : Client, data : any) => void, queue : Array<any>}>
+
 	protected game : Game
 	private started : boolean = false
 
@@ -17,6 +20,7 @@ export abstract class Stage
 
 	init(game : Game) : Stage
 	{
+		this.msgQueue = new Map()
 		this.game = game
 		this.onInit()
 		return this
@@ -31,11 +35,33 @@ export abstract class Stage
 		}
 		else
 		{
+			this.dispachQueue()
 			this.onUpdate()
 		}
 	}
 
-	clear()
+	public onMessage(msg : string, callback : (client : Client, data : any) => void)
+	{
+		this.msgQueue.set(msg, {
+			call : callback,
+			queue : new Array()
+		})
+		this.game.onMessage(msg, (client, data) => this.msgQueue.get(msg).queue.push({client, data}))
+	}
+
+	private dispachQueue()
+	{
+		for (const queue of this.msgQueue.values()) 
+		{
+			let obj;
+			while(obj = queue.queue.pop())
+			{
+				queue.call(obj.client, obj.data)
+			}
+		}
+	}
+
+	public clear()
 	{
 		this.started = false
 	}

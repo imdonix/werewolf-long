@@ -12,7 +12,7 @@ export class Setup extends Stage
 
     onInit(): void 
     {
-        this.game.onMessage('answer', this.onAnswer.bind(this))
+        this.onMessage('answer', this.onAnswer.bind(this))
     }
 
     onStart(): void 

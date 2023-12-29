@@ -14,8 +14,8 @@ export class Vote extends Stage
 
     onInit(): void 
     {
-        this.game.onMessage('vote', this.onVote.bind(this))
-        this.game.onMessage('afterlife', this.onAfterlife.bind(this))
+        this.onMessage('vote', this.onVote.bind(this))
+        this.onMessage('afterlife', this.onAfterlife.bind(this))
     }
 
     onStart(): void 
@@ -77,7 +77,7 @@ export class Vote extends Stage
                 }
 
                 this.killed = [voted, max]
-                if(this.killed)
+                if(this.killed[0])
                 {
                     this.game.state.players.get(this.killed[0]).alive = false
                 }
