@@ -6,7 +6,7 @@
 npm i
 npm start
 ```
-## Usefull links
+## Useful links
 
 - [Figma](https://www.figma.com/file/nw5vCb3bTzVswx6PajoTMt/Szivleszteri-j%C3%A1t%C3%A9k-fitymarajz?type=design&mode=design)
 
