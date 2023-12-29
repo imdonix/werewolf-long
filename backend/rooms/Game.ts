@@ -10,6 +10,7 @@ import { Player } from "./schema/Player";
 import { Social } from "./stages/Social"
 import { Hint } from "./Hint"
 import { Vote } from "./stages/Vote"
+import { End } from "./stages/End"
 
 export class Game extends Room<GameState> 
 {
@@ -23,6 +24,7 @@ export class Game extends Room<GameState>
 	private setup : Setup = new Setup() 
 	private social : Social = new Social()
 	private vote : Vote = new Vote()
+	private end : End = new End()
 	private stages : Map<string, Stage>
 
 	private updateInterval : Delayed
@@ -38,6 +40,7 @@ export class Game extends Room<GameState>
 		this.stages.set(this.setup.constructor.name, this.setup.init(this))
 		this.stages.set(this.social.constructor.name, this.social.init(this))
 		this.stages.set(this.vote.constructor.name, this.vote.init(this))
+		this.stages.set(this.end.constructor.name, this.end.init(this))
 
 		this.updateInterval = this.clock.setInterval(this.update.bind(this), 1000)
 

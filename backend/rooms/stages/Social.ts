@@ -1,9 +1,4 @@
-import { Client } from "colyseus";
-import { Player, Side } from "../schema/Player";
 import { Stage } from "./Stage";
-import { generateHints } from "../Hint";
-
-
 
 export class Social extends Stage
 {

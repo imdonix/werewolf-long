@@ -1,6 +1,6 @@
 import { Client } from "colyseus";
 import { Stage } from "./Stage";
-import { Side } from "../schema/Player";
+import { Player, Side } from "../schema/Player";
 
 
 
@@ -8,7 +8,7 @@ export class Vote extends Stage
 {
 
 
-    votes : Map<string, string>
+    votes : Map<Player, string>
     cooldown : number
     killed : [string, number]
 
@@ -48,21 +48,24 @@ export class Vote extends Stage
                 const counter = new Map<string, number>()
 
                 // add votes
-                for (const voted of this.votes.values()) 
+                for (const [player, voted] of this.votes.entries()) 
                 {
                     if(counter.has(voted))
                     {
-                        counter.set(voted, counter.get(voted) + 1)
+                        if(player.alive)
+                        {
+                            counter.set(voted, counter.get(voted) + 2)
+                        }
+                        else
+                        {
+                            counter.set(voted, counter.get(voted) + 1)
+                        }
                     }
                     else
                     {
                         counter.set(voted, 1)
                     }
                 }
-
-                // remove guardian angel votes
-                // TODO
-
 
                 // find most voted
                 let voted = null
@@ -111,7 +114,7 @@ export class Vote extends Stage
                     {
                         if(voted.alive)
                         {
-                            this.votes.set(player.accountId, message)
+                            this.votes.set(player, message)
                             this.info(`${player.accountName} voted for player '${message}'`)
                             this.tryReduceTime()
                         }
@@ -152,8 +155,8 @@ export class Vote extends Stage
 
     tryReduceTime()
     {
-        const alive = [...this.game.state.players.values()].filter(player => player.alive)
-        if(alive.length == this.votes.size)
+        const players = [...this.game.state.players.values()]
+        if(players.length == this.votes.size)
         {
             this.cooldown = Math.min(this.cooldown, this.game.config.voteFinishedSkip)
             this.info(`time reduced`)
@@ -162,8 +165,20 @@ export class Vote extends Stage
 
     end()
     {
-        this.game.state.stage = 'Social'
-        this.game.state.turn++
-        this.info(`end of vote`)
+        const alive = [...this.game.state.players.values()]
+        const werewolfs = alive.filter(player => player.gameSide == Side.WEREWOLF && player.alive)
+        const humans = alive.filter(player => player.gameSide == Side.HUMAN && player.alive)
+
+        if(werewolfs.length > 0 && humans.length > 0)
+        {
+            this.game.state.stage = 'Social'
+            this.game.state.turn++
+            this.info(`end of vote (c)`)
+        }
+        else
+        {
+            this.game.state.stage = 'End'
+            this.info(`end of vote (e)`)
+        }
     }
 }
