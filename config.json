@@ -68,22 +68,22 @@
                 {
                     "id" : "otnyelv",
                     "name" : "5 féle nyelven megtanulok beszélni",
-                    "sentence" : "titkos képessége pár pia itán, hogy megtanul 5 nyelven"
+                    "sentence" : "titkos képessége pár pia után, hogy megtanul 5 nyelven"
                 },
                 {
                     "id" : "szendvics",
                     "name" : "Hajnali háromkor elkezdek szendvicset csinálni",
-                    "sentence" : "titkos képessége pár pia itán, hogy hajnali háromkor elkezd szendvicset csinálni"
+                    "sentence" : "titkos képessége pár pia után, hogy hajnali háromkor elkezd szendvicset csinálni"
                 },
                 {
                     "id" : "tancolas",
                     "name" : "Nem létező ívekben táncolok",
-                    "sentence" : "titkos képessége pár pia itán, hogy nem létező ívekben táncol"
+                    "sentence" : "titkos képessége pár pia után, hogy nem létező ívekben táncol"
                 },
                 {
                     "id" : "kotoszkodo",
                     "name" : "Ketrecharcossá válok és kötöszködök",
-                    "sentence" : "titkos képessége pár pia itán, hogy ketrecharcossá válik és kötöszködik"
+                    "sentence" : "titkos képessége pár pia után, hogy ketrecharcossá válik és kötöszködik"
                 }
             ]
         },
