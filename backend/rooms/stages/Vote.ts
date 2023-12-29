@@ -32,13 +32,7 @@ export class Vote extends Stage
         if(this.cooldown > 0)
         {
             this.cooldown--
-            for (const player of this.game.state.players.values()) 
-            {
-                for (const client of player.clients) 
-                {
-                    client.send('vote_countdown', this.cooldown)
-                }
-            }
+            this.game.broadcast('vote_countdown', this.cooldown)
         }
         else
         {
@@ -88,69 +82,64 @@ export class Vote extends Stage
                 this.info(`${this.game.state.players.get(voted)?.accountName} killed in this turn`)
             }
 
-            for (const player of this.game.state.players.values()) 
-            {
-                for (const client of player.clients) 
-                {
-                    client.send('killed', {
-                        killed : this.killed[0],
-                        votes : this.killed[1]
-                    })
-                }
-            }
+            this.game.broadcast('killed', {
+                killed : this.killed[0],
+                votes : this.killed[1]
+            })
         }
     }
 
     onVote(client : Client, message : string)
     {
-        for (const player of this.game.state.players.values()) 
+        const player = this.game.selectPlayer(client)
+
+        const voted = this.game.state.players.get(message)
+        if(voted)
         {
-            for (const cli of player.clients) 
+            if(voted.alive)
             {
-                if(cli == client)
-                {
-                    const voted = this.game.state.players.get(message)
-                    if(voted)
-                    {
-                        if(voted.alive)
-                        {
-                            this.votes.set(player, message)
-                            this.info(`${player.accountName} voted for player '${message}'`)
-                            this.tryReduceTime()
-                        }
-                        else
-                        {
-                            this.warn(`${player.accountName} voted dead player '${message}'`)
-                        }
-                    }
-                    else
-                    {
-                        this.warn(`${player.accountName} voted invalid player '${message}'`)
-                    }
-                    return
-                }
-            }    
+                this.votes.set(player, message)
+                this.info(`${player.accountName} voted for player '${message}'`)
+                this.tryReduceTime()
+            }
+            else
+            {
+                this.warn(`${player.accountName} voted dead player '${message}'`)
+            }
+        }
+        else
+        {
+            this.warn(`${player.accountName} voted invalid player '${message}'`)
         }
     }
 
     onAfterlife(client : Client, side : Side)
     {
-        for (const player of this.game.state.players.values()) 
+        const player = this.game.selectPlayer(client)
+
+        // set player afterlife
+        player.afterlife = side
+        this.info(`${player.accountName} picked '${side}'`)
+
+        const players =  [...this.game.state.players.values()]
+        console.log(player.afterlife)
+        console.log(players)
+        const sidedGroup = players.filter(p => p.alive && p.gameSide == player.afterlife)
+
+        if(sidedGroup.length > 0)
         {
-            for (const cli of player.clients) 
-            {
-                if(cli == client)
-                {
-                    // set player afterlife
-                    player.afterlife = side
-                    this.info(`${player.accountName} picked '${side}'`)
-                    
-                    // end turn
-                    this.end()
-                    return
-                }
-            }
+            this.game.shuffleArray(sidedGroup)
+            const supported = sidedGroup.pop()
+            player.supported = supported.accountId
+            this.info(`'${player.accountName}' will support '${supported.accountName}'(${side})`)
         }
+        else
+        {
+            this.info(`for '${player.accountName}' there is no one alive in the sided group '${side}'`)
+        }
+
+        // end turn
+        this.end()
     }
 
     tryReduceTime()

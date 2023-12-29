@@ -58,6 +58,7 @@ export function Vote(room)
         {
             voteLose.classList.remove('disabled')
         }
+        
     })
 
     let cards;

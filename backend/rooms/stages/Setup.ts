@@ -34,14 +34,11 @@ export class Setup extends Stage
                 if(!player.facts.has(category.id))
                 {
                     done = false
-                    for (const client of player.clients) 
-                    {
-                        client.send('question', {
-                            category : category.id,
-                            text : category.question,
-                            facts : category.items,
-                        })
-                    }
+                    player.send('question', {
+                        category : category.id,
+                        text : category.question,
+                        facts : category.items,
+                    })
                     playerDone = false
                     break
                 }
@@ -49,11 +46,7 @@ export class Setup extends Stage
 
             if(playerDone)
             {
-                for (const client of player.clients) 
-                {
-                    client.send('done')
-                }
-
+                player.send('done')
                 player.ready = true 
             }
         }
@@ -64,13 +57,7 @@ export class Setup extends Stage
             if(this.cooldown > 0)
             {
                 this.cooldown--
-                for (const player of players) 
-                {
-                    for (const client of player.clients) 
-                    {
-                        client.send('setup_countdown', this.cooldown)
-                    }
-                }
+                this.game.broadcast('setup_countdown', this.cooldown)
             }
             else
             {
@@ -102,19 +89,9 @@ export class Setup extends Stage
 
     onAnswer(client : Client, answer : any)
     {
-        for (const player of this.game.state.players.values()) 
-        {
-            for(const opt of player.clients)
-            {
-                if(client == opt)
-                {
-                    player.facts.set(answer.category, answer.answer)
-                    this.game.info('Setup', `${player.accountName} answered '${answer.category}'`)
-                    return
-                }
-            }
-        }
-
+        const player = this.game.selectPlayer(client)
+        player.facts.set(answer.category, answer.answer)
+        this.game.info('Setup', `${player.accountName} answered '${answer.category}'`)
     }
 
 }

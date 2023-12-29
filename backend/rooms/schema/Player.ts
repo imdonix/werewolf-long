@@ -14,6 +14,7 @@ export class Player extends Schema
 
 	@type('string') accountId: string
 	@type('string') accountName: string
+	@type('string') supported : string
 	
 	@type('boolean') ready : boolean = false
 	@type('boolean') alive : boolean = true
@@ -22,4 +23,11 @@ export class Player extends Schema
 
 	facts : Map<string, string> = new Map() // CategoryID -> Fact 
 
+	public send(type : string, message? : any) 
+	{
+		for (const client of this.clients) 
+		{
+			client.send(type, message)	
+		}
+	}
 }

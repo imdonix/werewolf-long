@@ -135,7 +135,7 @@ export class Game extends Room<GameState>
 		logger.warn(`{${this.roomId}} [${sub}] ${message}`)
 	}
 
-	shuffleArray<T>(array : Array<T>) 
+	public shuffleArray<T>(array : Array<T>) 
     {
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -144,4 +144,20 @@ export class Game extends Room<GameState>
             array[j] = temp;
         }
     }
+
+	public selectPlayer(client : Client) : Player
+	{
+		for (const player of this.state.players.values()) 
+        {
+            for (const cli of player.clients) 
+            {
+                if(cli == client)
+                {
+					return player
+                }
+            }
+        }
+
+		return null
+	}
 }

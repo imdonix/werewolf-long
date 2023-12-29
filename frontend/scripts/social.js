@@ -11,7 +11,11 @@ export function Social(room)
     
     const socialAction = document.getElementById('social-action')
     const socialActionBack = document.getElementById('social-action-back')
+    const socialActionSide = document.getElementById('social-action-side')
+    const socialActionLoading = document.getElementById('social-action-loading')
     const socialActionRole = document.getElementById('social-action-role')
+    const socialActionDescription = document.getElementById('social-action-description')
+    const socialActionUse = document.getElementById('social-action-use')
 
     function createHintDOM(index, text)
     {
@@ -25,6 +29,47 @@ export function Social(room)
         </div>
         `
         return container
+    }
+
+    function requestActionPreview()
+    {
+        socialActionLoading.classList.remove('disabled')
+        socialActionRole.classList.add('disabled')
+        socialActionDescription.classList.add('disabled')
+
+        room.send('skillPreview')
+    }
+
+    function responseActionPreview(res)
+    {
+        socialActionLoading.classList.add('disabled')
+        socialActionRole.classList.remove('disabled')
+        socialActionDescription.classList.remove('disabled')
+
+        console.log(res)
+        //{category : string, description : string, used : boolean}
+        if(res.category)
+        {
+            socialActionRole.innerHTML = res.category
+            socialActionDescription.innerHTML = res.description
+
+            if(res.used)
+            {
+                socialActionUse.classList.add('disabled')
+            }
+            else
+            {
+                socialActionUse.classList.remove('disabled')
+
+                //Render playerlist
+
+            }
+        }
+        else
+        {
+            socialActionRole.innerHTML = `Őrangyal`
+            socialActionDescription.innerHTML = res.description
+        }
     }
 
     function toogleMode(watch)
@@ -42,7 +87,7 @@ export function Social(room)
     }
 
     socialActionBack.addEventListener('click', () => toogleMode(true))
-    socialWatchAction.addEventListener('click', () => toogleMode(false))
+    socialWatchAction.addEventListener('click', () => { toogleMode(false); requestActionPreview() })
     toogleMode(true)
 
     
@@ -50,6 +95,8 @@ export function Social(room)
         const res = secondsToMinutesAndSeconds(sec)
         socialWatchCountdown.innerText = `${res.minutes}:${res.seconds}`
     })
+
+    room.onMessage('skillState', responseActionPreview)
 
     room.hintDispacher.subscribe(() => {
         const hintArrayCoppy = [...room.state.readableHints.values()]
@@ -65,27 +112,23 @@ export function Social(room)
     })
 
     room.playerDispacher.subscribe(() => {
-        for (const player of room.state.players.values()) 
-        {
-            if(player.accountId == room.accountID)
-            {
 
-                if(player.gameSide == 'spectator')
-                { socialActionRole.innerText = 'Megfigyelő' }
-                else if(player.gameSide == 'werewolf')
-                { socialActionRole.innerText = 'Vérfarkas' }
-                else if(player.gameSide == 'human')
-                { socialActionRole.innerText = 'Ember' }
-                else
-                { socialActionRole.innerText = '???' }
-                 
-            }
-        }
+        const player = room.state.players.get(room.accountID)
+
+        if(player.gameSide == 'spectator')
+        { socialActionSide.innerText = 'Megfigyelő' }
+        else if(player.gameSide == 'werewolf')
+        { socialActionSide.innerText = 'Vérfarkas' }
+        else if(player.gameSide == 'human')
+        { socialActionSide.innerText = 'Ember' }
+        else
+        { socialActionSide.innerText = '???' }
     })
 
     return {
         show : () => {
             socialPanel.classList.remove('disabled')
+            requestActionPreview()
         },
 
         hide : () => {
