@@ -49,7 +49,7 @@ export function Setup(room)
             const input = document.createElement('input')
             const lable = document.createElement('label')
     
-            option.classList.add('form-check')
+            option.classList.add('form-check', 'm-2')
             input.id = fact.id
             input.classList.add('form-check-input')
             input.type = 'radio'

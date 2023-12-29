@@ -16,6 +16,8 @@ export function Social(room)
     const socialActionRole = document.getElementById('social-action-role')
     const socialActionDescription = document.getElementById('social-action-description')
     const socialActionUse = document.getElementById('social-action-use')
+    const socialActionUseSelect = document.getElementById('social-action-use-select')
+    const socialActionUseSend = document.getElementById('social-action-use-send')
 
     function createHintDOM(index, text)
     {
@@ -61,8 +63,16 @@ export function Social(room)
             {
                 socialActionUse.classList.remove('disabled')
 
-                //Render playerlist
+                let options = new Array()
+                for (const player of room.state.players.values()) 
+                {
+                    if(player.alive)
+                    {
+                        options.push(`<option value="${player.accountId}">${player.accountName}</option>`)
+                    }
+                }
 
+                socialActionUseSelect.innerHTML = options.join('\n')
             }
         }
         else
@@ -123,6 +133,17 @@ export function Social(room)
         { socialActionSide.innerText = 'Ember' }
         else
         { socialActionSide.innerText = '???' }
+    })
+
+    socialActionUseSend.addEventListener('click', () => {
+        const id = socialActionUseSelect.value
+
+        if(id)
+        {
+            console.log(`skill used on ${id}`)
+            room.send('skillUse', id)
+            requestActionPreview()
+        }
     })
 
     return {

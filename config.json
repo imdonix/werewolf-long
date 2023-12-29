@@ -1,9 +1,9 @@
 {
     "werewolfThresholds" : [2, 5, 10],
 
-    "setupCountdown" : "1",
-    "socialStage" : "10",
-    "voteStage" : "62",
+    "setupCountdown" : "10",
+    "socialStage" : "600",
+    "voteStage" : "60",
     "voteFinishedSkip" : "10",
 
     "categories" : [
@@ -11,7 +11,7 @@
             "id" : "drink",
             "skill" : "Csapos",
             "skillAction" : "Meg tudod nézni valakiről, hogy mi a kedvenc itala",
-            "skillResponse" : "Megtudtad @ játékosról, hogy # a kedvenc itala",
+            "skillResponse" : "Megtudtad @ játékosról, hogy a #",
             "question" : "Mi a kedvenc alkoholos italod?",
             "items" : [
                 {
@@ -188,8 +188,9 @@
     ],
 
     "roles" : {
-        "werewolf" : "Vérfarkas",
-        "human" : "Ember"
+        "werewolf" : "vérfarkas",
+        "human" : "ember",
+        "angel" : "őrangyal"
     },
 
     "hints" : {

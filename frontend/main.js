@@ -3,6 +3,7 @@ import { Login } from './scripts/login.js'
 import { Setup } from './scripts/setup.js'
 import { Social } from './scripts/social.js'
 import { Vote } from './scripts/vote.js'
+import { End } from './scripts/end.js'
 
 const client = new Colyseus.Client()
 main()
@@ -21,6 +22,7 @@ async function main()
     stages.set('Setup', Setup(room))
     stages.set('Social', Social(room))
     stages.set('Vote', Vote(room))
+    stages.set('End', End(room))
 
     // setup player dispacher
     {

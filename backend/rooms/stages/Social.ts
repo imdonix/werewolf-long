@@ -5,7 +5,7 @@ import { Stage } from "./Stage";
 export class Social extends Stage
 {
 
-    skills : Map<Player, {category : string, description : string, used : boolean}>
+    skills : Map<Player, {skill : any, usedOn : Player}>
     cooldown : number
 
 
@@ -40,36 +40,57 @@ export class Social extends Stage
 
     prepareRoles()
     {
+        const skills = new Array()
+        for (const category of this.game.config.categories) 
+        {
+            if('skill' in category)
+            {
+                skills.push({
+                    category : category,
+                    name: category.skill,
+                    action: category.skillAction,
+                    response: category.skillResponse,
+                })
+            }
+        }      
+
+        let skillsCopy = new Array()
+
         for (const player of this.game.state.players.values()) 
         {
+
+            if(skillsCopy.length == 0)
+            {
+                skillsCopy = [...skills]
+                this.game.shuffleArray(skillsCopy)
+            }
+
             
             if(player.alive)
             {
-                //TODO
                 this.skills.set(player, {
-                    category : 'none',
-                    description : 'none',
-                    used : true
+                    skill : skillsCopy.pop(),
+                    usedOn : null
                 })
             }
             else
             {
-                console.log(player.supported)
                 const supported = this.game.state.players.get(player.supported)
                 if(supported)
                 {
                     this.skills.set(player, {
-                        category : null, // angel
-                        description : `<b>${supported.accountName}</b> <sup>(${this.game.config.roles[supported.gameSide]})</sup> őrangyala vagy, segítsd a játékban ahogy tudod.`,
-                        used : true
+                        skill : {
+                            name : this.game.config.roles.angel,
+                            response : `<b>${supported.accountName}</b> <sup>(${this.game.config.roles[supported.gameSide]})</sup> őrangyala vagy, segítsd a játékban ahogy tudod.`
+                        },
+                        usedOn : supported
                     })
                 }
                 else
                 {
                     this.skills.set(player, {
-                        category : null, // angel
-                        description : null,
-                        used : true
+                        skill : null,
+                        usedOn : null
                     }) 
                 }
             }
@@ -115,7 +136,7 @@ export class Social extends Stage
                 }
                 else
                 {
-                    this.warn(`hint is invalid (cat -> ${category}) (item -> ${itemName})`)
+                    this.warn(`hint is invalid (cat -> ${category}) (item -> ${item.id})`)
                 }
             }
             else
@@ -129,12 +150,51 @@ export class Social extends Stage
     onSkillPreview(client : Client, _ : any)
     {
         const player = this.game.selectPlayer(client)
-        player.send('skillState', this.skills.get(player))
+        const obj = this.skills.get(player)
+
+        if(obj.usedOn)
+        {
+            let responseBuilder : string = obj.skill.response
+            if(responseBuilder.indexOf('@') >= 0) responseBuilder = responseBuilder.replace('@', obj.usedOn.accountName)
+            if(responseBuilder.indexOf('#') >= 0) 
+            {
+                const itemID = obj.usedOn.facts.get(obj.skill.category.id)
+                for (const item of obj.skill.category.items) 
+                {
+                    if(item.id == itemID)
+                    {
+                        responseBuilder = responseBuilder.replace('#', item.sentence)
+                    }
+                }
+            } 
+
+            player.send('skillState', {
+                category : obj.skill.name,
+                description : responseBuilder,
+                used : true
+            })
+        }
+        else
+        {
+            player.send('skillState', {
+                category : obj.skill.name,
+                description : obj.skill.action,
+                used : false
+            })
+        }
     }
 
-    onSkillUse(client : Client, target : any)
+    onSkillUse(client : Client, targetid : string)
     {
+        const player = this.game.selectPlayer(client)
+        const target = this.game.state.players.get(targetid)
 
+        const skill = this.skills.get(player)
+        if(!skill.usedOn)
+        {
+            skill.usedOn = target
+            this.onSkillPreview(client, null)
+        }
     }
 
 }
