@@ -48,7 +48,6 @@ export function Social(room)
         socialActionRole.classList.remove('disabled')
         socialActionDescription.classList.remove('disabled')
 
-        console.log(res)
         //{category : string, description : string, used : boolean}
         if(res.category)
         {

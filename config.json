@@ -2,7 +2,7 @@
     "werewolfThresholds" : [2, 5, 10],
 
     "setupCountdown" : "10",
-    "socialStage" : "600",
+    "socialStage" : "10",
     "voteStage" : "60",
     "voteFinishedSkip" : "10",
 
@@ -198,5 +198,7 @@
         "trueForAll" : "Minden @-re igaz az hogy #",
         "trueForOnlyOne" : "Csak egy @-re igaz az hogy #",
         "trueForAtleastOne" : "Biztosan van olyan @ akire igaz hogy #"
-    }
+    },
+
+    "voteNotification" : "Szavazás (#. kör)"
 }

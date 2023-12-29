@@ -1,7 +1,9 @@
+import webpush from "web-push"
+
 import { Client } from "colyseus";
 import { Stage } from "./Stage";
 import { Player, Side } from "../schema/Player";
-
+import { subscriptions } from "../../notifications";
 
 
 export class Vote extends Stage
@@ -24,6 +26,8 @@ export class Vote extends Stage
         this.cooldown = this.game.config.voteStage
         this.killed = null
         this.votes = new Map()
+
+        this.notifyUsers()
     }
 
 
@@ -169,5 +173,21 @@ export class Vote extends Stage
             this.game.state.stage = 'End'
             this.info(`end of vote (e)`)
         }
+    }
+
+    notifyUsers()
+    {
+        for (const player of this.game.state.players.values()) 
+        {
+            const subscription = subscriptions.get(player.accountId)
+            if(subscription)
+            {
+                webpush.sendNotification(subscription, JSON.stringify({ title: this.game.config.voteNotification.replace('#', this.game.state.turn + 1)}))
+            }   
+            else
+            {
+                this.info(`'${player.accountName}' not enabled the notifications`)
+            }
+        }        
     }
 }

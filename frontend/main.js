@@ -1,9 +1,11 @@
+import { Webpush } from './scripts/webpush.js'
 import { Login } from './scripts/login.js'
 
 import { Setup } from './scripts/setup.js'
 import { Social } from './scripts/social.js'
 import { Vote } from './scripts/vote.js'
 import { End } from './scripts/end.js'
+
 
 const client = new Colyseus.Client()
 main()
@@ -12,6 +14,7 @@ async function main()
 {
     await loadDynamicSections()
     const res = await Login()
+    const push = await Webpush(res.id)
     const room = await client.joinOrCreate('game', res)
 
     room.accountID = res.id
