@@ -66,7 +66,10 @@ export function Social(room)
                 let options = new Array()
                 for (const player of room.state.players.values()) 
                 {
-                    if(player.alive)
+                    const needsTobeAlive = player.alive
+                    const cannotbeMe = player.accountId != room.accountID
+
+                    if(needsTobeAlive && cannotbeMe)
                     {
                         options.push(`<option value="${player.accountId}">${player.accountName}</option>`)
                     }
