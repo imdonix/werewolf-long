@@ -8,32 +8,180 @@
 
     "categories" : [
         {
-            "id" : "food",
-            "question" : "Mi a kedvenc ételed?",
-            "sentence" : "kedvenc étele a(z) <b>#</b>",
+            "id" : "drink",
+            "skill" : "Csapos",
+            "skillAction" : "Meg tudod nézni valakiről, hogy mi a kedvenc itala",
+            "skillResponse" : "Megtudtad @ játékosról, hogy # a kedvenc itala",
+            "question" : "Mi a kedvenc alkoholos italod?",
             "items" : [
                 {
-                    "id" : "pizza",
-                    "name" : "Pizza"
+                    "id" : "vodka",
+                    "name" : "Vodka",
+                    "sentence" : "kedvenc itala a vodka"
                 },
                 {
-                    "id" : "retek",
-                    "name" : "Retek"
+                    "id" : "whisky",
+                    "name" : "Whisky",
+                    "sentence" : "kedvenc itala a whisky"
+                },
+                {
+                    "id" : "rum",
+                    "name" : "Rum",
+                    "sentence" : "kedvenc itala a rum"
+                },
+                {
+                    "id" : "sor",
+                    "name" : "Sör",
+                    "sentence" : "kedvenc itala a sör"
+                },
+                {
+                    "id" : "gin",
+                    "name" : "Gin",
+                    "sentence" : "kedvenc itala a gin"
+                },
+                {
+                    "id" : "palinka",
+                    "name" : "Pálinka",
+                    "sentence" : "kedvenc itala a pálinka"
+                },
+                {
+                    "id" : "liqour",
+                    "name" : "Liqour",
+                    "sentence" : "kedvenc itala a liqour"
+                },
+                {
+                    "id" : "tequila",
+                    "name" : "Tequila",
+                    "sentence" : "kedvenc itala a tequila"
                 }
             ]
         },
         {
-            "id" : "drink",
-            "question" : "Mi a kedvenc alkoholos italod?",
-            "sentence" : "nagyon be tud baszni a(z) <b>#</b>-tól",
+            "id" : "secretability",
+            "question" : "Mi a titkos képességed pár ital után?",
             "items" : [
                 {
-                    "id" : "vodka",
-                    "name" : "Vodka"
+                    "id" : "politikaiszakerto",
+                    "name" : "Politikai szakértővé válok",
+                    "sentence" : "titkos képessége pár pia után, hogy politikai szakértővé válik"
                 },
                 {
-                    "id" : "susu",
-                    "name" : "Süsü pezsgő"
+                    "id" : "otnyelv",
+                    "name" : "5 féle nyelven megtanulok beszélni",
+                    "sentence" : "titkos képessége pár pia itán, hogy megtanul 5 nyelven"
+                },
+                {
+                    "id" : "szendvics",
+                    "name" : "5 féle nyelven megtanulok beszélni",
+                    "sentence" : "titkos képessége pár pia itán, hogy hajnali háromkor elkezd szendvicset csinálni"
+                },
+                {
+                    "id" : "tancolas",
+                    "name" : "Nem létező ívekben táncolok",
+                    "sentence" : "titkos képessége pár pia itán, hogy nem létező ívekben táncol"
+                },
+                {
+                    "id" : "kotoszkodo",
+                    "name" : "Ketrecharcossá válok és kötöszködök",
+                    "sentence" : "titkos képessége pár pia itán, hogy ketrecharcossá válik és kötöszködik"
+                }
+            ]
+        },
+        {
+            "id" : "hangoverhandle",
+            "skill" : "Orvos",
+            "skillAction" : "Meg tudod nézni valakiről, hogy hogy kezeli a másnaposságot",
+            "skillResponse" : "Megtudtad @ játékosról, hogy #",
+            "question" : "Hogyan kezeled a másnaposságot?",
+            "items" : [
+                {
+                    "id" : "megtobbpia",
+                    "name" : "Még több alkohollal, elvégre nem lehetsz másnapos ha mindig részeg vagy",
+                    "sentence" : "nem lesz másnapos soha, mert ráiszik és tovább részeg"
+                },
+                {
+                    "id" : "edzes",
+                    "name" : "Lemegyek edzeni, mert szeretek szenvedni",
+                    "sentence" : "lemegy edzeni másnaposságra, mert szeret szenvedni"
+                },
+                {
+                    "id" : "fajdalomcsillapito",
+                    "name" : "Fájdalomcsillapítóval várom a halált",
+                    "sentence" : "fájdalomcsillapítóval várja a halált, amikor másnapos"
+                },
+                {
+                    "id" : "zabalas",
+                    "name" : "Zabálok egy nagyot és jól vagyok",
+                    "sentence" : "zabál egy nagyot, amikor másnapos és jól van"
+                },
+                {
+                    "id" : "nincsmasnap",
+                    "name" : "Másnaposság? Az mi?",
+                    "sentence" : "nem szokott másnapos lenni egyáltalán."
+                }
+            ]
+        },
+        {
+            "id" : "drinkingcapabilities",
+            "question" : "Mennyire bírod a piát?",
+            "skill": "Itató",
+            "skillAction" : "Meg tudod nézni valakiről, hogy milyen gyorsan rúg be",
+            "skillResponse" : "Megtudtad @ játékosról, hogy #",
+            "items" : [
+                {
+                    "id" : "nembirja",
+                    "name" : "Elég gyorsan berúgok",
+                    "sentence" : "elég gyorsan berúg"
+                },
+                {
+                    "id" : "parpohar",
+                    "name" : "Hát, azért pár pohár lemegy",
+                    "sentence" : "kell egy pár pohár, hogy berúgjon"
+                },
+                {
+                    "id" : "alkoholista",
+                    "name" : "Mire én becsiccsentek, a többiek teleportálósra isszák magukat",
+                    "sentence" : "mire beccsiccsent, mások teleportálósra isszák magukat"
+                }
+            ]
+        },
+        {
+            "id" : "memory",
+            "question" : "Egy izmosan ivós este után emlékszel-e mindenre?",
+            "items" : [
+                {
+                    "id" : "igen",
+                    "name" : "Nagyjából igen, általában",
+                    "sentence" : "nagyjából mindenre emlékszik egy erős este után"
+                },
+                {
+                    "id" : "nem",
+                    "name" : "A pohár aljára, utána semmire",
+                    "sentence" : "nem emlékszik semmire egy erős este után"
+                }
+            ]
+        },
+        {
+            "id" : "playlist",
+            "question" : "A kedvenc lejátszási listádból milyen buli lenne?",
+            "skill": "Buliszervező",
+            "skillAction" : "Meg tudod nézni valakiről, hogy milyen a kedvenc lejátszási listája",
+            "skillResponse" : "Megtudtad @ játékosról, hogy #",
+            "items" : [
+                {
+                    "id" : "bangerek",
+                    "name" : "10/10, csak bangerek vannak benne",
+                    "sentence" : "10/10 bulit csapna a kedvenc lejátszási listájával"
+                },
+                {
+                    "id" : "depends",
+                    "name" : "Mindenkinek élete bulija lenne - valakinek a legjobb, valakinek a legrosszabb",
+                    "sentence" : "ha buli készülne a kedvenc lejátszási listájával, valaki imádná, valaki utálná"
+                },
+                {
+                    "id" : "chill",
+                    "name" : "A kedenc listám inkább chilles",
+                    "sentence" : "a kedvenc lejátszási listája inkább chilles"
                 }
             ]
         }
