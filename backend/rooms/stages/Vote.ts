@@ -171,14 +171,16 @@ export class Vote extends Stage
             if(werewolfs.length > 0)
             {
                 this.game.state.won = Side.WEREWOLF
+                this.info(`end of vote (e -> werewolf)`)
             }
             else
             {
                 this.game.state.won = Side.HUMAN
+                this.info(`end of vote (e -> human)`)
             }
 
             this.game.state.stage = 'End'
-            this.info(`end of vote (e)`)
+            
         }
     }
 

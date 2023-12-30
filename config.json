@@ -2,7 +2,7 @@
     "werewolfThresholds" : [2, 5, 10],
 
     "setupCountdown" : "10",
-    "socialStage" : "10",
+    "socialStage" : "240",
     "voteStage" : "60",
     "voteFinishedSkip" : "10",
 
