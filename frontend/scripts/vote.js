@@ -69,7 +69,7 @@ export function Vote(room)
         voteNames.innerHTML = ``
 
         // check that current player is alive
-        for (const player of room.state.players.values()) 
+        for (const player of room.state.players.values())
         {
             if(room.accountID == player.accountID)
             {

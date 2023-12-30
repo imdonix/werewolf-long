@@ -126,8 +126,6 @@ export class Vote extends Stage
         this.info(`${player.accountName} picked '${side}'`)
 
         const players =  [...this.game.state.players.values()]
-        console.log(player.afterlife)
-        console.log(players)
         const sidedGroup = players.filter(p => p.alive && p.gameSide == player.afterlife)
 
         if(sidedGroup.length > 0)
@@ -170,6 +168,15 @@ export class Vote extends Stage
         }
         else
         {
+            if(werewolfs.length > 0)
+            {
+                this.game.state.won = Side.WEREWOLF
+            }
+            else
+            {
+                this.game.state.won = Side.HUMAN
+            }
+
             this.game.state.stage = 'End'
             this.info(`end of vote (e)`)
         }
