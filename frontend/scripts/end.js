@@ -39,8 +39,7 @@ export function End(room)
         },
 
         hide : () => {
-            endPanel.classList.remove('disabled')
-            renderList()
+            endPanel.classList.add('disabled')
         }
     }
 }
