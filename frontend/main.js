@@ -16,10 +16,10 @@ async function main()
 {
     const id = loadUniqueID()
     await loadDynamicSections()
-    const push = await Webpush(id)
-    const name = await Login(id, push)
     
-
+    const name = await Login(id)
+    const push = await Webpush(id)
+    
     const client = new Colyseus.Client()
     const room = await client.joinOrCreate('game', { id, name })
 

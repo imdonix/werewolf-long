@@ -1,4 +1,4 @@
-export function Login(id, push)
+export function Login(id)
 {
     const loginPanel = document.getElementById('login-panel')
     const loginName = document.getElementById('login-name')
