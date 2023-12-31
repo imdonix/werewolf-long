@@ -2,8 +2,8 @@
     "werewolfThresholds" : [2, 5, 10],
 
     "setupCountdown" : "10",
-    "socialStage" : "240",
-    "voteStage" : "60",
+    "socialStage" : "360",
+    "voteStage" : "120",
     "voteFinishedSkip" : "10",
 
     "categories" : [
@@ -194,10 +194,10 @@
     },
 
     "hints" : {
-        "thereIsNoOne" : "Nincs olyan @ akire igaz lenne hogy #",
-        "trueForAll" : "Minden @-re igaz az hogy #",
-        "trueForOnlyOne" : "Csak egy @-re igaz az hogy #",
-        "trueForAtleastOne" : "Biztosan van olyan @ akire igaz hogy #"
+        "thereIsNoOne" : "Nincs olyan vérfarkas, akire igaz lenne, hogy #",
+        "trueForAll" : "Minden vérfarkasra igaz, hogy #",
+        "trueForOnlyOne" : "Csak egy vérfarkasra igaz, hogy #",
+        "trueForAtleastOne" : "Biztosan van olyan vérfarkas, akire igaz, hogy #"
     },
 
     "voteNotification" : "Szavazás (#. kör)"
