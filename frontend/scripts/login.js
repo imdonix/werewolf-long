@@ -66,6 +66,7 @@ export function Login(id, push)
             useIos.classList.remove('disabled')
             loginAction.classList.remove('disabled')
 
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera
             if( !(/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) || ('standalone' in window.navigator) && (window.navigator.standalone))
             {
                 useIos.classList.add('disabled')
