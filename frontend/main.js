@@ -1,3 +1,5 @@
+import { loadUniqueID } from './scripts/utils.js'
+
 import { Webpush } from './scripts/webpush.js'
 import { Login } from './scripts/login.js'
 
@@ -7,17 +9,21 @@ import { Vote } from './scripts/vote.js'
 import { End } from './scripts/end.js'
 
 
-const client = new Colyseus.Client()
+
 main()
 
 async function main()
 {
+    const id = loadUniqueID()
     await loadDynamicSections()
-    const res = await Login()
-    const push = await Webpush(res.id)
-    const room = await client.joinOrCreate('game', res)
+    const push = await Webpush(id)
+    const name = await Login(id, push)
+    
 
-    room.accountID = res.id
+    const client = new Colyseus.Client()
+    const room = await client.joinOrCreate('game', { id, name })
+
+    room.accountID = id
     room.playerDispacher = eventDispacher()
     room.hintDispacher = eventDispacher()
 

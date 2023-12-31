@@ -32,13 +32,13 @@ export async function Webpush(id)
             })
     
             console.log('subscribed to notifications.')
+
+            return true
         }
     }
     
     catch(error)
     {
-
+        return false
     }
-
-    return {}
 }

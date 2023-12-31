@@ -80,9 +80,12 @@ export class Vote extends Stage
                 if(this.killed[0])
                 {
                     this.game.state.players.get(this.killed[0]).alive = false
+                    this.info(`${this.game.state.players.get(voted)?.accountName} killed in this turn`)
                 }
-
-                this.info(`${this.game.state.players.get(voted)?.accountName} killed in this turn`)
+                else
+                {
+                    this.end()
+                }
             }
 
             this.game.broadcast('killed', {

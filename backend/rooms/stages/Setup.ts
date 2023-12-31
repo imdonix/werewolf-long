@@ -70,11 +70,11 @@ export class Setup extends Stage
                 {
                     if(this.game.config.werewolfThresholds.indexOf(i+1) >= 0)
                     {
-                        players[randArray[i]].gameSide = Side.WEREWOLF
+                        players[randArray[i]].gameSide = players[randArray[i]].afterlife = Side.WEREWOLF
                     }
                     else
                     {
-                        players[randArray[i]].gameSide = Side.HUMAN
+                        players[randArray[i]].gameSide = players[randArray[i]].afterlife = Side.HUMAN
                     }
                 }
 
