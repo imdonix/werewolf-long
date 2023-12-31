@@ -66,7 +66,7 @@ export function Login(id, push)
             useIos.classList.remove('disabled')
             loginAction.classList.remove('disabled')
 
-            if('serviceWorker' in navigator)
+            if(push)
             {
                 useIos.classList.add('disabled')
             }
