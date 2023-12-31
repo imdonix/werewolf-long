@@ -32,9 +32,9 @@ export async function Webpush(id)
             })
     
             console.log('subscribed to notifications.')
-
-            return true
         }
+
+        return true
     }
     
     catch(error)
