@@ -48,21 +48,20 @@ export class Vote extends Stage
                 // add votes
                 for (const [player, voted] of this.votes.entries()) 
                 {
-                    if(counter.has(voted))
+                    if(!counter.has(voted))
                     {
-                        if(player.alive)
-                        {
-                            counter.set(voted, counter.get(voted) + 2)
-                        }
-                        else
-                        {
-                            counter.set(voted, counter.get(voted) + 1)
-                        }
+                        counter.set(voted, 0)
+                    }
+                
+                    if(player.alive)
+                    {
+                        counter.set(voted, counter.get(voted) + 2)
                     }
                     else
                     {
-                        counter.set(voted, 1)
+                        counter.set(voted, counter.get(voted) + 1)
                     }
+
                 }
 
                 // find most voted

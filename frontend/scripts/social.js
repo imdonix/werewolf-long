@@ -1,4 +1,4 @@
-import { secondsToMinutesAndSeconds } from './utils.js'
+import { secondsToMinutesAndSeconds, gameSideToReadable } from './utils.js'
 
 export function Social(room)
 {
@@ -38,6 +38,7 @@ export function Social(room)
         socialActionLoading.classList.remove('disabled')
         socialActionRole.classList.add('disabled')
         socialActionDescription.classList.add('disabled')
+        socialActionUse.classList.add('disabled')
 
         room.send('skillPreview')
     }
@@ -51,7 +52,7 @@ export function Social(room)
         //{category : string, description : string, used : boolean}
         if(res.category)
         {
-            socialActionRole.innerHTML = res.category
+            socialActionRole.innerHTML = `<B>${res.category}</B>` 
             socialActionDescription.innerHTML = res.description
 
             if(res.used)
@@ -126,15 +127,7 @@ export function Social(room)
     room.playerDispacher.subscribe(() => {
 
         const player = room.state.players.get(room.accountID)
-
-        if(player.gameSide == 'spectator')
-        { socialActionSide.innerText = 'Megfigyelő' }
-        else if(player.gameSide == 'werewolf')
-        { socialActionSide.innerText = 'Vérfarkas' }
-        else if(player.gameSide == 'human')
-        { socialActionSide.innerText = 'Ember' }
-        else
-        { socialActionSide.innerText = '???' }
+        socialActionSide.innerHTML = `<b>${player.accountName}</b><br><sup>${gameSideToReadable(player.gameSide)}</sup>` 
     })
 
     socialActionUseSend.addEventListener('click', () => {
@@ -151,7 +144,9 @@ export function Social(room)
     return {
         show : () => {
             socialPanel.classList.remove('disabled')
+            socialWatchCountdown.innerText = '-'
             requestActionPreview()
+            toogleMode(true)
         },
 
         hide : () => {

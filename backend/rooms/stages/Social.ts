@@ -152,6 +152,8 @@ export class Social extends Stage
         const player = this.game.selectPlayer(client)
         const obj = this.skills.get(player)
 
+        if(!obj) return
+
         if(obj.usedOn)
         {
             let responseBuilder : string = obj.skill.response

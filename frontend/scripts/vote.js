@@ -12,6 +12,7 @@ export function Vote(room)
     const voteEnd = document.getElementById('vote-end')
     const voteEndName = document.getElementById('vote-end-name')
     const voteEndCount = document.getElementById('vote-end-count')
+    const voteWeight = document.getElementById('vote-weight')
     
     const voteLose = document.getElementById('vote-lose')
     const voteSideWerewolf = document.getElementById('vote-side-werewolf')
@@ -68,16 +69,15 @@ export function Vote(room)
         cards = new Array()
         voteNames.innerHTML = ``
 
-        // check that current player is alive
+        // reset vote countdown
+        voteCountdown.innerText = `-`
+
+        // put out vote weight
         for (const player of room.state.players.values())
         {
-            if(room.accountID == player.accountID)
+            if(room.accountId == player.accountId)
             {
-                if(!player.alive)
-                {
-                    voteNames.innerHTML = `<h2>Meghaltál</h2><h4>Nem tudsz szavazni</h4>`
-                    return
-                }
+                voteWeight.innerText = player.alive ? `Élő játékos vagy, a szavazatod 2 pontot ér` : 'Meghaltál, a szavazatod 1 pontot ér'
             }
         }
 
